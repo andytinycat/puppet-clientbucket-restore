@@ -104,7 +104,7 @@ while true
     when "u"
       system("diff -u #{available_files[number][:contents_path]} #{target_path}")
     when "r"
-      print "Restore to (default is to restore to #{target_path}: "
+      print "Restore to (default is to restore to #{target_path}): "
       choice = gets.strip
       choice.chomp!
 
