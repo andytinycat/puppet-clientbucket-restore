@@ -1,9 +1,7 @@
 #!/usr/bin/ruby
 
 require 'rubygems'
-require 'highline/import'
 require 'find'
-require 'pp'
 
 if ARGV.length < 1
   puts "Usage: clientbucket.rb /path/to/file"
