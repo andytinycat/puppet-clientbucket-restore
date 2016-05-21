@@ -4,7 +4,7 @@ require 'rubygems'
 require 'find'
 
 if ARGV.length < 1
-  puts "Usage: clientbucket.rb /path/to/file"
+  puts "Usage: clientbucket.rb /path/to/file /path/to/clientbucket"
   exit 1
 end
 
