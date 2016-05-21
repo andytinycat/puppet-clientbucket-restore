@@ -8,8 +8,8 @@ if ARGV.length < 1
   exit 1
 end
 
-target_path = ARGV.shift
-clientbucket_path = "/var/lib/puppet/clientbucket"
+target_path,clientbucket_path = ARGV
+clientbucket_path ||= "/var/lib/puppet/clientbucket"
 
 available_files = Array.new
 
