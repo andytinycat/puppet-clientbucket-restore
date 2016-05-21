@@ -13,34 +13,37 @@ clientbucket_path ||= "/var/lib/puppet/clientbucket"
 
 available_files = Array.new
 
-Find.find(clientbucket_path) do |file_path|
+begin
+  Find.find(clientbucket_path) do |file_path|
 
-  # Skip directories and "contents" files
-  next if FileTest.directory?(file_path)
-  next unless File.basename(file_path) =~ /paths$/
+    # Skip directories and "contents" files
+    next if FileTest.directory?(file_path)
+    next unless File.basename(file_path) =~ /paths$/
 
-  # See if this file has a path the user was looking for
-  path = File.open(file_path).first
-  path.chomp!
-  if target_path == path
+    # See if this file has a path the user was looking for
+    path = File.open(file_path).first
+    path.chomp!
+    if target_path == path
 
-    # Get the md5 string the file is referred to by
-    file_path =~ /([^\/]+)\/paths$/;
-    file_hash = $1
+      # Get the md5 string the file is referred to by
+      file_path =~ /([^\/]+)\/paths$/;
+      file_hash = $1
 
-    # Get the "contents" file containing the old file's contents
-    contents_path = File.dirname(file_path) + "/contents"
+      # Get the "contents" file containing the old file's contents
+      contents_path = File.dirname(file_path) + "/contents"
 
-    # Get the creation time
-    ctime = File.stat(file_path).ctime
+      # Get the creation time
+      ctime = File.stat(file_path).ctime
 
-    details = {:hash => file_hash, :ctime => ctime, :contents_path => contents_path}
-    available_files.push(details)
+      details = {:hash => file_hash, :ctime => ctime, :contents_path => contents_path}
+      available_files.push(details)
+
+    end
 
   end
-
+rescue
+  puts "Unable to open file path #{clientbucket_path}"
 end
-
 # See if we found any files for the user
 if available_files.length == 0
   puts "No files with path #{target_path} exist in the clientbucket"
