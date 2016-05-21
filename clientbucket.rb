@@ -2,14 +2,36 @@
 
 require 'rubygems'
 require 'find'
+require 'optparse'
 
-if ARGV.length < 1
-  puts "Usage: clientbucket.rb /path/to/file /path/to/clientbucket"
-  exit 1
+options = {:target_path => nil, :clientbucket_path => nil}
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: clientbucket.rb -t target_path -c clientbucket_path"
+  
+  opts.on("-t", "--target_path target_path", "path to file to restore") do |t|
+    options[:target_path] = t
+  end
+
+  opts.on("-c", "--clientbucket_path clientbucket_path", "path to file to restore") do |c|
+    options[:clientbucket_path] = c
+  end
 end
 
-target_path,clientbucket_path = ARGV
-clientbucket_path ||= "/var/lib/puppet/clientbucket"
+parser.parse!
+
+if options[:target_path] == nil
+  print 'Enter target path: '
+  options[:target_path] = gets.chomp
+end
+
+if options[:clientbucket_path] == nil
+  print 'Enter clientbucket path: '
+  options[:clientbucket_path] = gets.chomp
+end
+
+target_path = options[:target_path]
+
+clientbucket_path =  options[:clientbucket_path]
 
 available_files = Array.new
 
