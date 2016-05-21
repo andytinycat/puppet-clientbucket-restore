@@ -10,13 +10,19 @@ or more of these older versions.
 
 Run the script like this:
 
-    clientbucket.rb /path/to/file
+    clientbucket.rb -t /path/to/file -c path/to/client/bucket
 
-Where /path/to/file is the file on the system that you're looking for old versions of.
+Where /path/to/file is the file on the system that you're looking for old versions of. If you run it by itself, it will return the following help screen:
+
+    Usage: clientbucket.rb -t target_path -c clientbucket_path
+        -t, --target_path target_path    path of the file to restore
+        -c clientbucket_path,            where to restore from. Defaults to /var/lib/puppet/clientbucket
+            --clientbucket_path
+        -h, --help  
 
 The script runs interactively and prompts you for what you want to do. An example:
 
-    # clientbucket.rb /some/test/file
+    # clientbucket.rb -t /some/test/file
     [0]: 41f59421026a473a0378c58d539069c6 Thu Feb 09 15:56:36 +0000 2012
     [1]: 6bc6ab38660066ea8cf0743b889bd075 Mon Feb 20 15:23:59 +0000 2012
     [2]: 74da6d605bfd7ecad38904bc35a0292a Thu May 24 13:45:10 +0100 2012
